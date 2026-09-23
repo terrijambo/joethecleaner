@@ -1,36 +1,41 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Joe The Cleaner (JC Crew)
 
-## Getting Started
+Marketing site for Joe The Cleaner, a cleaning company based in St. Albans, Vermont. Built by ArkiTech Solutions.
 
-First, run the development server:
+Next.js 16 (App Router, all routes static), Tailwind v4, Motion, Phosphor icons. No environment variables and no database.
+
+## Run it
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Deploys to Vercel with the default Next.js preset. Nothing else to configure.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Where things live
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- `lib/site.ts`: phone, email, hours, ratings, review-site listings, service towns and the GoHighLevel IDs. Change business facts here.
+- `app/*/page.tsx`: one folder per route (`/services`, `/our-work`, `/about`, `/reviews`, `/service-area`, `/contact`, `/book`).
+- `components/`: sections. `VermontMap` is the service-area map, `Mountains` is the ridge-line illustration, `Plate` places the background botanical art.
+- `public/images/`: job photos from Joe's Facebook page. `public/art/`: public-domain plates (Michaux's *North American Sylva*, Audubon, Lindman). `public/logos/`: review-site marks.
 
-## Learn More
+## Lead capture (GoHighLevel)
 
-To learn more about Next.js, take a look at the following resources:
+The quote form (`/contact`), walkthrough calendar (`/book`) and chat bubble are Joe's existing GoHighLevel widgets, embedded by ID from `lib/site.ts`. Leads keep flowing into his current GHL account. `/book` keeps the old site's URL.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Service-area map
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Geometry is projected to SVG paths ahead of time, so the page ships no map library.
 
-## Deploy on Vercel
+1. Edit town lists in `data/geo/towns.json` (`core` = regular routes, `beyond` = farther trips). Keep `towns` in `lib/site.ts` matching `core`.
+2. Run `node scripts/build-vt-map.mjs` to regenerate `lib/vt-map.json`.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Sources: US Census county boundaries, Natural Earth lakes, OpenStreetMap (Nominatim) town points.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Before launch, confirm with Joe
+
+- Phone: site uses (802) 441-6618 (old site, Facebook, YouTube). Google Business lists (802) 316-8960.
+- The GHL walkthrough calendar charges $250. Site copy avoids calling the walkthrough free.
+- Hours (Mon to Fri 9 to 6, Sat 9 to 4) came from his older site.
+- Which towns count as regular routes.

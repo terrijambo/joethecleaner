@@ -1,26 +1,173 @@
 @import "tailwindcss";
 
+/* Light-only site: dark: utilities only fire under an explicit .dark class, which we never set. */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/*
+  Brand: forest green + sunflower yellow, lifted from Joe's FB cover and shirt patch.
+  Shape rule: buttons/chips are full pill, cards and photos are 1.25rem.
+*/
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --bg: #f2f4ee;
+  --surface: #fbfcf8;
+  --ink: #0f1a13;
+  --muted: #4b5a50;
+  --line: #d6ddd2;
+  --forest: #13502b;
+  --forest-deep: #0b3620;
+  --on-forest: #f2f4ee;
+  --sun: #f3c233;
+  --on-sun: #1b1703;
+  --shadow: 19 80 43;
+  /* Vermont morning: pale sky over blue-green ridges. */
+  --sky-top: #cfe1ec;
+  --sky-mid: #e3edf1;
+  --ridge-far: #b9cbd3;
+  --ridge-mid: #93b1a2;
+  --ridge-near: #3f7352;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-line: var(--line);
+  --color-forest: var(--forest);
+  --color-forest-deep: var(--forest-deep);
+  --color-on-forest: var(--on-forest);
+  --color-sun: var(--sun);
+  --color-on-sun: var(--on-sun);
+  --font-sans: var(--font-body);
+  --font-display: var(--font-display);
+  --radius-card: 1.25rem;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 5rem;
+}
+
+html {
+  color-scheme: light;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+}
+
+::selection {
+  background: var(--sun);
+  color: var(--on-sun);
+}
+
+.shadow-soft {
+  box-shadow: 0 1px 0 rgb(var(--shadow) / 0.04), 0 18px 40px -18px rgb(var(--shadow) / 0.28);
+}
+
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+.marquee-track {
+  animation: marquee 60s linear infinite;
+}
+
+.marquee-track:hover {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .marquee-track { animation: none; }
+}
+
+/* Expanded poster cut for display headlines. */
+.font-display {
+  font-stretch: 118%;
+}
+.display-xl {
+  font-family: var(--font-display);
+  font-stretch: 125%;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+}
+
+/* Brand logos drawn as masks so they follow the text color in both themes. */
+.logo-mask {
+  background-color: currentColor;
+  mask: var(--logo) center / contain no-repeat;
+  -webkit-mask: var(--logo) center / contain no-repeat;
+}
+
+/* uiverse-style CTA: shine sweep plus an arrow bubble that floods on hover. */
+.btn-joe {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+}
+.btn-joe::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(110deg, transparent 30%, rgb(255 255 255 / 0.55) 48%, transparent 66%);
+  transform: translateX(-120%);
+}
+.btn-joe:hover::before {
+  transition: transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+  transform: translateX(120%);
+}
+.btn-joe .bubble {
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.btn-joe:hover .bubble {
+  transform: rotate(-45deg) scale(1.08);
+}
+.btn-ring .ring-icon {
+  transform-origin: 50% 60%;
+}
+.btn-ring:hover .ring-icon {
+  animation: ring 0.6s ease-in-out;
+}
+@keyframes ring {
+  0%, 100% { transform: rotate(0); }
+  20% { transform: rotate(-14deg); }
+  40% { transform: rotate(12deg); }
+  60% { transform: rotate(-8deg); }
+  80% { transform: rotate(4deg); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .btn-joe::before { display: none; }
+  .btn-ring:hover .ring-icon { animation: none; }
+}
+
+/* Natural-history plates scattered behind sections (sway = wind, drift = parallax on scroll). */
+@media (prefers-reduced-motion: no-preference) {
+  .plate--sway {
+    transform-origin: 50% 100%;
+    animation: sway 9s ease-in-out infinite alternate;
+  }
+  @supports (animation-timeline: view()) {
+    .plate--drift {
+      animation: drift linear both;
+      animation-timeline: view();
+    }
+  }
+}
+@keyframes sway {
+  from { transform: rotate(-2.5deg); }
+  to { transform: rotate(2.5deg); }
+}
+@keyframes drift {
+  from { translate: 0 60px; }
+  to { translate: 0 -60px; }
+}
+
+/* Stop decorative art from ever causing sideways scroll. */
+body {
+  overflow-x: clip;
 }
