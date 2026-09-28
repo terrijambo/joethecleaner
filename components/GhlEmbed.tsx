@@ -1,12 +1,24 @@
 "use client";
 
 import Script from "next/script";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { site } from "@/lib/site";
 
 // GoHighLevel survey/calendar iframe. form_embed.js auto-sizes it by matching the iframe id.
 export function GhlEmbed({ src, id, title, minHeight = 640 }: { src: string; id: string; title: string; minHeight?: number }) {
   const [loaded, setLoaded] = useState(false);
+  const frame = useRef<HTMLIFrameElement>(null);
+
+  // Set src only after hydration: a server-rendered iframe can finish loading before React
+  // attaches onLoad, which left the skeleton stuck behind the form.
+  useEffect(() => {
+    const el = frame.current;
+    if (!el) return;
+    const done = () => setLoaded(true);
+    el.addEventListener("load", done);
+    el.src = src;
+    return () => el.removeEventListener("load", done);
+  }, [src]);
 
   return (
     <div className="relative" style={{ minHeight }}>
@@ -21,10 +33,9 @@ export function GhlEmbed({ src, id, title, minHeight = 640 }: { src: string; id:
         </div>
       )}
       <iframe
-        src={src}
+        ref={frame}
         id={id}
         title={title}
-        onLoad={() => setLoaded(true)}
         scrolling="no"
         className={`w-full border-0 transition-opacity duration-500 ${loaded ? "opacity-100" : "opacity-0"}`}
         style={{ minHeight }}

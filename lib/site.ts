@@ -29,10 +29,12 @@ export const site = {
     { name: "HomeAdvisor", logo: "/logos/homeadvisor.svg", rating: 4.9, count: 7, href: "https://www.homeadvisor.com/rated.JoesCrew.113214335.html" },
     { name: "Facebook", logo: "/logos/facebook.svg", rating: null, count: null, href: "https://www.facebook.com/joethecleaner/" },
   ],
+  // GHL's own hosts, not the link.joethecleaner.net white-label domain, so the form and
+  // calendar keep working even if that CNAME is missing from whichever DNS is live.
   ghl: {
-    quoteSurvey: "https://link.joethecleaner.net/widget/survey/7SPePpoJUaaNw5uMSTiW",
-    bookingWidget: "https://link.joethecleaner.net/widget/booking/QOEsaeJXNmlnxp4JY5lg",
-    formEmbedScript: "https://link.joethecleaner.net/js/form_embed.js",
+    quoteSurvey: "https://api.leadconnectorhq.com/widget/survey/7SPePpoJUaaNw5uMSTiW",
+    bookingWidget: "https://api.leadconnectorhq.com/widget/booking/QOEsaeJXNmlnxp4JY5lg",
+    formEmbedScript: "https://link.msgsndr.com/js/form_embed.js",
     chatWidgetId: "69dfd2460c3ae56674a04a7d",
   },
 } as const;
