@@ -36,7 +36,7 @@ export function GhlEmbed({ src, id, title, minHeight = 640 }: { src: string; id:
         ref={frame}
         id={id}
         title={title}
-        scrolling="no"
+        scrolling="auto"
         className={`w-full border-0 transition-opacity duration-500 ${loaded ? "opacity-100" : "opacity-0"}`}
         style={{ minHeight }}
       />

@@ -28,7 +28,7 @@ export function PageHeader({
       <Plate name={art[0]} eager desktopOnly sway drift={false} opacity={0.4} rotate={-18} className="-top-10 -left-24 w-56 lg:w-64" />
       <Plate name={art[1]} eager desktopOnly sway drift={false} opacity={0.35} rotate={20} className="-top-8 -right-24 w-52 lg:w-60" />
       <Reveal>
-        <h1 className="display-xl mx-auto max-w-[16ch] text-[clamp(1.9rem,10vw,2.6rem)] leading-[0.92] sm:text-6xl lg:text-[4.75rem]">
+        <h1 className="display-xl mx-auto max-w-[16ch] text-[clamp(1.6rem,8.2vw,2.6rem)] leading-[0.92] sm:text-6xl lg:text-[4.75rem]">
           {title} {accent && <span className="text-forest dark:text-sun">{accent}</span>}
         </h1>
         <p className="mx-auto mt-6 max-w-[48ch] text-lg leading-relaxed text-muted md:text-xl">{lede}</p>
