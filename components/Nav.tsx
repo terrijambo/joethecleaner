@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -19,9 +20,14 @@ const links = [
 export function Wordmark({ className = "" }: { className?: string }) {
   return (
     <Link href="/" className={`group flex items-center gap-2.5 ${className}`} aria-label="Joe The Cleaner home">
-      <span className="grid size-9 place-items-center rounded-full bg-forest font-display text-lg font-extrabold text-sun transition-transform duration-500 group-hover:rotate-[-8deg]">
-        J
-      </span>
+      <Image
+        src="/images/joe-logo.webp"
+        alt=""
+        width={444}
+        height={320}
+        priority
+        className="h-11 w-auto transition-transform duration-500 group-hover:rotate-[-4deg] md:h-12"
+      />
       <span className="font-display text-[1.15rem] font-bold whitespace-nowrap leading-none tracking-tight">
         Joe The Cleaner
       </span>
